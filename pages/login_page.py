@@ -1,7 +1,4 @@
 import tkinter as tk
-import customtkinter as ctk
-from PIL import Image
-
 from res.custom_widgets import RoundedButton
 from firebase_admin import auth
 from tkinter import messagebox

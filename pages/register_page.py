@@ -1,7 +1,4 @@
 import tkinter as tk
-import customtkinter as ctk
-from PIL import Image
-
 from res.custom_widgets import RoundedButton
 from firebase_admin import auth
 from tkinter import messagebox
@@ -26,8 +23,9 @@ class RegisterPage(tk.Frame):
         self.password_label = tk.Label(self, text="Password:", font=("Changa", 12), fg="#718096")
         self.email_entry = tk.Entry(self, font=("Changa", 12), fg="#080F17", width=35)
         self.password_entry = tk.Entry(self, show="*", font=("Changa", 12), fg="#080F17", width=35)
-        self.register_button = RoundedButton(self, text="Register", command=self.register, font=("Changa", 12), fg="#F7FAFC",
-                                          bg="#080F17")
+        self.register_button = RoundedButton(self, text="Register", command=self.register, font=("Changa", 12),
+                                             fg="#F7FAFC",
+                                             bg="#080F17")
 
         # Create a Frame to group the login_text and login_button
         self.login_frame = tk.Frame(self)
@@ -36,7 +34,8 @@ class RegisterPage(tk.Frame):
         self.login_button.bind("<Button-1>", self.master.show_login_page)
 
         # Load the image
-        self.image = tk.PhotoImage(file="/Users/marynaborovyk/Desktop/pythonProject/res/drawable/bg_login.png")  # Replace with the path to your image
+        self.image = tk.PhotoImage(
+            file="/Users/marynaborovyk/Desktop/pythonProject/res/drawable/bg_login.png")
         self.image_label = tk.Label(self, image=self.image)
 
         self.register_label.grid(row=0, column=1, pady=5, padx=10, sticky="w")

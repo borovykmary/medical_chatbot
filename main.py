@@ -1,13 +1,9 @@
 import tkinter as tk
-from tkinter import messagebox
-from tkinter import ttk
-import customtkinter as ctk
 import firebase_admin
 from firebase_admin import credentials, auth, firestore
 from pages.login_page import LoginPage
 from pages.register_page import RegisterPage
 from pages.chat_page import MainPage
-from res.custom_widgets import RoundedButton
 
 cred = credentials.Certificate("/Users/marynaborovyk/Desktop/pythonProject/medicalchatbot-bb438-firebase-adminsdk"
                                "-azls8-45e0c6cecf.json")
