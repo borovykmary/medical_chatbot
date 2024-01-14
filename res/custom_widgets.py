@@ -15,7 +15,7 @@ class RoundedButton(tk.Canvas):
         self.button_label = tk.Label(self, text=self.text, font=self.font, bg=self.bg, fg=self.fg)
         self.button_label.place(x=150, y=15, anchor="center")
 
-        self.bind("<Button-1>", self._execute_command)  # Call bind on the Canvas widget
+        self.bind("<Button-1>", self._execute_command)
 
     def _create_rounded_rect(self, x1, y1, x2, y2, r, **kwargs):
         points = [x1+r, y1,
@@ -43,3 +43,5 @@ class RoundedButton(tk.Canvas):
     def _execute_command(self, event):
         if self.command is not None:
             self.command()
+
+

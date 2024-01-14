@@ -16,7 +16,7 @@ class Application(tk.Tk):
         super().__init__(*args, **kwargs)
         self.title("medical chatbot test")
 
-        self.geometry("700x500")
+        self.geometry("900x600")
         self.login_page = LoginPage(self, auth=auth, db=db)
         self.register_page = RegisterPage(self, auth=auth, db=db)
         self.main_page = MainPage(self)
