@@ -1,13 +1,17 @@
+import hashlib
+import sqlite3
 import tkinter as tk
+import uuid
+
+import mysql.connector
+
 from res.custom_widgets import RoundedButton
-from firebase_admin import auth
 from tkinter import messagebox
 
 
 class RegisterPage(tk.Frame):
     def __init__(self, master=None, auth=None, db=None, **kwargs):
         super().__init__(master, **kwargs)
-        self.auth = auth
         self.db = db
 
          # design of widgets
@@ -39,17 +43,28 @@ class RegisterPage(tk.Frame):
         self.register_button.place(relx=0.1, rely=0.8)
         self.image_label.place(relx=0.55, rely=0.1)
 
+        self.conn = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="Flover18",
+            database="register"
+        )
+        self.cursor = self.conn.cursor()
+
+    def generate_unique_id(self):
+        return str(uuid.uuid4())
+
     def register(self):
         email = self.email_entry.get()
         password = self.password_entry.get()
+        hashed_password = hashlib.sha256(password.encode()).hexdigest()
+
+        user_id = self.generate_unique_id()
 
         try:
-            user = auth.create_user(email=email, password=password)
-            messagebox.showinfo("Registration", "Registration successful!")
-
-            self.db.collection('users').document(user.uid).set({
-                'email': email
-            })
-
-        except ValueError as e:
-            messagebox.showerror("Registration Error", str(e))
+            self.cursor.execute("INSERT INTO users (id, email, password) VALUES (%s, %s, %s)",
+                                (user_id, email, hashed_password))
+            self.conn.commit()
+            messagebox.showinfo("Registration Successful", "You have successfully registered")
+        except mysql.connector.IntegrityError:
+            messagebox.showerror("Registration Error", "User already exists")

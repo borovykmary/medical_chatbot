@@ -1,13 +1,13 @@
+import hashlib
+import mysql.connector
 import tkinter as tk
 from res.custom_widgets import RoundedButton
-from firebase_admin import auth
 from tkinter import messagebox
 
 
 class LoginPage(tk.Frame):
-    def __init__(self, master=None, auth=None, db=None, **kwargs):
+    def __init__(self, master=None, db=None, **kwargs):
         super().__init__(master, **kwargs)
-        self.auth = auth
         self.db = db
 
         # design of widgets
@@ -40,12 +40,25 @@ class LoginPage(tk.Frame):
         self.login_button.place(relx=0.1, rely=0.8)
         self.image_label.place(relx=0.55, rely=0.1)
 
+        self.conn = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="Flover18",
+            database="register"
+        )
+        self.cursor = self.conn.cursor()
+
     def login(self):
         email = self.email_entry.get()
         password = self.password_entry.get()
+        hashed_password = hashlib.sha256(password.encode()).hexdigest()
 
-        try:
-            user = auth.get_user_by_email(email)
+        self.cursor.execute("SELECT * FROM users WHERE email=%s", (email,))
+        user = self.cursor.fetchone()
+
+        if user is None:
+            messagebox.showerror("Login Error", "User not found")
+        elif user[2] != hashed_password:
+            messagebox.showerror("Login Error", "Incorrect password")
+        else:
             self.master.show_main_page()
-        except auth.AuthError as e:
-            messagebox.showerror("Login Error", str(e))
