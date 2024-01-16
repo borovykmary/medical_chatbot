@@ -50,7 +50,6 @@ class RegisterPage(tk.Frame):
             self.db.collection('users').document(user.uid).set({
                 'email': email
             })
-            self.show_login_page()
 
         except ValueError as e:
             messagebox.showerror("Registration Error", str(e))
