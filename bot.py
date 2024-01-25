@@ -1,22 +1,37 @@
-# bot.py
+from ttc import Chatbot, Context, download_nltk_data
 
-from chatterbot import ChatBot
-from chatterbot.trainers import ListTrainer
-from chatterbot.trainers import ChatterBotCorpusTrainer
+# Only needs to be run once (can be removed after first run)
+download_nltk_data()
 
-chatbot = ChatBot("Chatbot")
+# Creating the context
+ctx = Context()
 
-trainer = ChatterBotCorpusTrainer(chatbot)
-trainer.train(
-    "./asking_for_name.yml",
-    "./asking_for_symptoms.yml",
-    "./asking_for_doctor.yml"
+# Initializing the chatbot
+#chatbot = Chatbot()
+
+chatbot = Chatbot(
+    path="brain",
+    learn=True,
+    min_score=0.5,
+    score_threshold=0.5,
+    mesh_association=0.5,
 )
-print("🪴 Hi")
-exit_conditions = (":q", "quit", "exit")
-while True:
-    query = input("> ")
-    if query in exit_conditions:
-        break
+
+talk = True
+
+while talk:
+    msg = input("You: ")
+
+    if msg == "s":
+        talk = False
     else:
-        print(f"🪴 {chatbot.get_response(query)}")
+        # Getting the response
+        resp = chatbot.respond(ctx, msg)
+
+        # Saving the response to the context
+        ctx.save_resp(resp)
+
+        print(f"Thomas: {resp}")
+
+# Saving the chatbot data
+chatbot.save_data()
