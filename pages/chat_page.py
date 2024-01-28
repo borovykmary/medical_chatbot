@@ -2,6 +2,7 @@ import functools
 import tkinter as tk
 import customtkinter as ctk
 from PIL import Image, ImageTk
+from convert_to_pdf import convert_to_pdf
 
 
 class MainPage(tk.Frame):
@@ -31,21 +32,28 @@ class MainPage(tk.Frame):
 
         self.logout_button = tk.Button(self.bg_image_label, text="Logout", command=self.logout,
                                        bg="#718096", font=("Changa-SemiBold", 12))
-        self.logout_button.place(relx=0.01, rely=0.1, relwidth=0.2, relheight=0.05)
+        self.logout_button.place(relx=0.014, rely=0.1, relwidth=0.215, relheight=0.05)
 
         self.new_chat_button = tk.Button(self.bg_image_label, text="New Chat", command=self.new_chat,
                                          bg="#718096", font=("Changa-SemiBold", 12))
-        self.new_chat_button.place(relx=0.01, rely=0.2, relwidth=0.2, relheight=0.05)
+        self.new_chat_button.place(relx=0.014, rely=0.2, relwidth=0.215, relheight=0.05)
         self.chat_boxes = []
         for i in range(4):
             chat_box = tk.Button(self.bg_image_label, text=f"Chat {i + 1}",
                                 command=functools.partial(self.switch_chat, i + 1),
                                 bg="#718096", font=("Changa", 12))
-            chat_box.place(relx=0.01, rely=0.3 + i * 0.05, relwidth=0.2, relheight=0.05)
+            chat_box.place(relx=0.014, rely=0.3 + i * 0.05, relwidth=0.215, relheight=0.05)
             self.chat_boxes.append(chat_box)
 
         self.send_button.place(relx=0.9, rely=0.89, relwidth=0.08, relheight=0.05)
-        self.bot_messages = ["How are you?", "What is your favourite color?", "What is your age?"]
+
+        greetings = "Greetings patient, welcome to the queue of our clinic. Could you please share your name?"
+        ask_for_symptoms = "What brings you here? What are your symptoms?"
+
+        calm = "It might be though - waiting, maybe chatting with our bot will make it more pleasant."
+        self.user_answers = []
+
+        self.bot_messages = [greetings, ask_for_symptoms, calm]
         self.bot_message_index = 0
 
         self.bot_chat(self.bot_messages[self.bot_message_index])
@@ -67,6 +75,9 @@ class MainPage(tk.Frame):
         self.message_entry.delete(0, tk.END)
         self.animate_chat(message, "user")
 
+        # save user's answer
+        self.save_user_answers(message)
+
         self.bot_message_index += 1
         if self.bot_message_index < len(self.bot_messages):
             self.bot_chat(self.bot_messages[self.bot_message_index])
@@ -82,3 +93,19 @@ class MainPage(tk.Frame):
 
     def switch_chat(self, chat_number):
         pass
+
+    def save_user_answers(self, answer):
+        """
+        function to save user's answers
+        Args:
+            answer: user's answer
+        Returns:
+            None
+        """
+        if len(self.user_answers) < 2:
+            self.user_answers.append(answer)
+            if len(self.user_answers) == 1:
+                self.input_name = self.user_answers[0]
+            elif len(self.user_answers) == 2:
+                self.input_symptoms = self.user_answers[1]
+                convert_to_pdf(self.user_answers)

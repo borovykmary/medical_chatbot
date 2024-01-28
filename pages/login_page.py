@@ -25,7 +25,7 @@ class LoginPage(tk.Frame):
                                         cursor="hand2")
         self.register_button.bind("<Button-1>", self.master.show_register_page)
         self.image = tk.PhotoImage(
-            file="/Users/marynaborovyk/Desktop/pythonProject/res/drawable/bg_login.png")
+            file="/Users/marynaborovyk/Desktop/python_app/res/drawable/bg_login.png")
         self.image_label = tk.Label(self, image=self.image)
 
         # placement of widgets
