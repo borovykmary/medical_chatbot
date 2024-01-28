@@ -5,6 +5,17 @@ from pages.chat_page import MainPage
 
 
 class Application(tk.Tk):
+    """
+    Main application class
+    Attributes:
+        login_page(LoginPage): login page
+        register_page(RegisterPage): register page
+        main_page(MainPage): main page
+    Methods:
+        show_login_page(self, event=None): shows login page
+        show_register_page(self, event=None): shows register page
+        show_main_page(self): shows main page
+    """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.title("medical chatbot test")
@@ -21,12 +32,21 @@ class Application(tk.Tk):
         self.show_login_page()
 
     def show_login_page(self, event=None):
+        """
+        function to show login page
+        """
         self.login_page.tkraise()
 
     def show_register_page(self, event=None):
+        """
+        function to show register page
+        """
         self.register_page.tkraise()
 
     def show_main_page(self):
+        """
+        function to show main page
+        """
         self.main_page.tkraise()
 
 

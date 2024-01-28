@@ -9,7 +9,7 @@ def convert_to_pdf(answers: list):
     """
     function to convert patient's data to pdf
     Args:
-        answers: list of answers from patient
+        answers(list): list of answers from patient
     Returns:
         doc: pdf file with patient's data
     """

@@ -6,6 +6,25 @@ from tkinter import messagebox
 
 
 class LoginPage(tk.Frame):
+    """
+    Login page of the medical_bot app
+    Attributes:
+        login_label(tk.Label): login label
+        email_label(tk.Label): email label
+        password_label(tk.Label): password label
+        email_entry(tk.Entry): email entry
+        password_entry(tk.Entry): password entry
+        login_button(tk.Button): login button
+        register_frame(tk.Frame): register frame
+        register_text(tk.Label): register text
+        register_button(tk.Label): register button
+        image(tk.PhotoImage): background image
+        image_label(tk.Label): background image label
+        conn: connection to database
+        cursor: cursor to database
+    Methods:
+        login(self): login
+    """
     def __init__(self, master=None, db=None, **kwargs):
         super().__init__(master, **kwargs)
         self.db = db
@@ -49,6 +68,17 @@ class LoginPage(tk.Frame):
         self.cursor = self.conn.cursor()
 
     def login(self):
+        """
+        function to login
+        Args:
+            email(str): email
+            password(str): password
+            hashed_password(str): hashed password
+        Returns:
+            messagebox: error message if user not found or password incorrect
+        Raises:
+            error: if user not found or password incorrect
+        """
         email = self.email_entry.get()
         password = self.password_entry.get()
         hashed_password = hashlib.sha256(password.encode()).hexdigest()

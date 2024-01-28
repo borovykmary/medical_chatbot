@@ -6,6 +6,40 @@ from convert_to_pdf import convert_to_pdf
 
 
 class MainPage(tk.Frame):
+    """
+    Main "Chat" page of the medical_bot app
+
+    Attributes:
+        bg_image(Image): background image
+        bg_image_label(Image): background image label
+        chat_number_label(tk.Label): label with chat number
+        chat_history(tk.Text): chat history
+        message_entry(tk.Entry): message entry
+        send_button(tk.Button): send button
+        logout_button(tk.Button): logout button
+        new_chat_button(tk.Button): new chat button
+        chat_boxes(list): list of chat boxes
+        current_chat(int): current chat
+        greetings(str): greeting message
+        ask_for_symptoms(str): message asking for symptoms
+        calm(str): message calming patient
+        user_answers(list): list of user's answers
+        bot_messages(list): list of bot's messages
+        bot_message_index(int): index of bot's message
+        input_name(str): input name
+        input_symptoms(str): input symptoms
+        current_y(int): current y coordinate
+
+    Methods:
+        create_message_bubble(self, message, message_type, container): creates a message bubble
+        animate_chat(self, message, message_type): animates chat
+        send_message(self): sends message
+        bot_chat(self, message): bot's message
+        logout(self): logout
+        new_chat(self): creates a new chat
+        switch_chat(self, current_chat): switches between chats
+        save_user_answers(self, answer): saves user's answers
+    """
 
     def __init__(self, master=None, **kwargs):
         super().__init__(master, **kwargs)
@@ -38,39 +72,65 @@ class MainPage(tk.Frame):
                                          bg="#718096", font=("Changa-SemiBold", 12))
         self.new_chat_button.place(relx=0.014, rely=0.2, relwidth=0.215, relheight=0.05)
         self.chat_boxes = []
-        for i in range(4):
+        for i in range(1):
             chat_box = tk.Button(self.bg_image_label, text=f"Chat {i + 1}",
                                 command=functools.partial(self.switch_chat, i + 1),
                                 bg="#718096", font=("Changa", 12))
             chat_box.place(relx=0.014, rely=0.3 + i * 0.05, relwidth=0.215, relheight=0.05)
             self.chat_boxes.append(chat_box)
-
+        self.current_chat = 1
         self.send_button.place(relx=0.9, rely=0.89, relwidth=0.08, relheight=0.05)
 
-        greetings = "Greetings patient, welcome to the queue of our clinic. Could you please share your name?"
-        ask_for_symptoms = "What brings you here? What are your symptoms?"
+        self.greetings = "Greetings patient, welcome to the queue of our clinic. Could you please share your name?"
+        self.ask_for_symptoms = "What brings you here? What are your symptoms?"
 
-        calm = "It might be though - waiting, maybe chatting with our bot will make it more pleasant."
+        self.calm = "It might be though - waiting, maybe chatting with our bot will make it more pleasant."
         self.user_answers = []
 
-        self.bot_messages = [greetings, ask_for_symptoms, calm]
+        self.bot_messages = [self.greetings, self.ask_for_symptoms, self.calm]
         self.bot_message_index = 0
 
         self.bot_chat(self.bot_messages[self.bot_message_index])
         self.current_y = 0.07
 
     def create_message_bubble(self, message, message_type, container):
+        """
+        function to create a message bubble
+        Args:
+            message(str): message
+            message_type(str): message type
+            container(tk.Frame): container
+        Returns:
+            bubble(tk.Frame): message bubble
+        """
         bubble = ctk.CTkFrame(container, width=340, bg_color="#718096")
         bubble.place(relx=0.05 if message_type == "bot" else 0.94, rely=self.current_y, anchor="w" if message_type == "bot" else "e")
 
         message_label = ctk.CTkLabel(bubble, text=message, wraplength=260, bg_color="#718096", corner_radius=8, text_color="white", font=("Changa", 12))
         message_label.pack()
 
+        return bubble
+
     def animate_chat(self, message, message_type):
+        """
+        function to animate chat
+        Args:
+            message(str): message
+            message_type(str): message type
+        Returns:
+            None
+        """
         self.create_message_bubble(message, message_type, self.chat_history)
         self.current_y += 0.06
 
     def send_message(self):
+        """
+        function to send message
+        Args:
+            None
+        Returns:
+            None
+        """
         message = self.message_entry.get()
         self.message_entry.delete(0, tk.END)
         self.animate_chat(message, "user")
@@ -83,22 +143,60 @@ class MainPage(tk.Frame):
             self.bot_chat(self.bot_messages[self.bot_message_index])
 
     def bot_chat(self, message):
+        """
+        function to animate bot's chat
+        Args:
+            message(str): message
+        Returns:
+            None
+        """
         self.after(500, lambda: self.animate_chat(message, "bot"))
 
     def logout(self):
+        """
+        function to logout
+        Args:
+            None
+        Returns:
+            None
+        """
         self.master.show_login_page()
 
     def new_chat(self):
-        pass
+        """
+        function to create a new chat
+        Args:
+            None
+        Returns:
+            None
+        """
+        self.current_chat += 1
 
-    def switch_chat(self, chat_number):
-        pass
+        new_chat_box = tk.Button(self.bg_image_label, text=f"Chat {self.current_chat}",
+                                 command=functools.partial(self.switch_chat, self.current_chat),
+                                 bg="#718096", font=("Changa", 12))
+
+        new_chat_box.place(relx=0.014, rely=0.3 + (self.current_chat - 1) * 0.05, relwidth=0.215, relheight=0.05)
+        self.chat_boxes.append(new_chat_box)
+
+    def switch_chat(self, current_chat):
+        """
+        example function to switch between chats
+        Args:
+            current_chat: chat number
+        Returns:
+            None
+        """
+        print(f"Switching to chat {current_chat}")
+        self.current_chat = current_chat
+
+
 
     def save_user_answers(self, answer):
         """
         function to save user's answers
         Args:
-            answer: user's answer
+            answer(str): answer
         Returns:
             None
         """

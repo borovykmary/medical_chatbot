@@ -2,14 +2,32 @@ import hashlib
 import sqlite3
 import tkinter as tk
 import uuid
-
 import mysql.connector
-
 from res.custom_widgets import RoundedButton
 from tkinter import messagebox
 
 
 class RegisterPage(tk.Frame):
+    """
+    Register page of the medical_bot app
+    Attributes:
+        register_label(tk.Label): register label
+        email_label(tk.Label): email label
+        password_label(tk.Label): password label
+        email_entry(tk.Entry): email entry
+        password_entry(tk.Entry): password entry
+        register_button(tk.Button): register button
+        login_frame(tk.Frame): login frame
+        login_text(tk.Label): login text
+        login_button(tk.Label): login button
+        image(tk.PhotoImage): background image
+        image_label(tk.Label): background image label
+        conn: connection to database
+        cursor: cursor to database
+    Methods:
+        generate_unique_id(self): generates unique id
+        register(self): register
+    """
     def __init__(self, master=None, auth=None, db=None, **kwargs):
         super().__init__(master, **kwargs)
         self.db = db
@@ -52,9 +70,29 @@ class RegisterPage(tk.Frame):
         self.cursor = self.conn.cursor()
 
     def generate_unique_id(self):
+        """
+        function to generate unique id
+        Args:
+            None
+        Returns:
+            str: unique id
+        """
+
         return str(uuid.uuid4())
 
     def register(self):
+        """
+        function to register
+        Args:
+            email(str): email
+            password(str): password
+            hashed_password(str): hashed password
+            user_id(str): unique user id
+        Returns:
+            None
+        Raises:
+            mysql.connector.IntegrityError: if user already exists
+        """
         email = self.email_entry.get()
         password = self.password_entry.get()
         hashed_password = hashlib.sha256(password.encode()).hexdigest()
