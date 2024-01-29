@@ -2,6 +2,11 @@ import functools
 import tkinter as tk
 import customtkinter as ctk
 from PIL import Image, ImageTk
+
+
+from bot import ctx
+from bot import chatbot
+
 from convert_to_pdf import convert_to_pdf
 
 
@@ -55,7 +60,7 @@ class MainPage(tk.Frame):
         self.chat_number_label = tk.Label(self.bg_image_label, text="Chat Number: 1", font=("Changa", 12))
         self.chat_number_label.place(relx=0.245, rely=0.03, relwidth=0.73, relheight=0.05)
 
-        self.chat_history = tk.Text(self.bg_image_label)
+        self.chat_history = tk.Frame(self.bg_image_label, bg='white')
         self.chat_history.place(relx=0.245, rely=0.15, relwidth=0.73, relheight=0.7)
 
         self.message_entry = tk.Entry(self.bg_image_label)
@@ -85,9 +90,10 @@ class MainPage(tk.Frame):
         self.ask_for_symptoms = "What brings you here? What are your symptoms?"
 
         self.calm = "It might be though - waiting, maybe chatting with our bot will make it more pleasant."
+        self.start_chat = "Say something to start the conversation with the MM-bot."
         self.user_answers = []
 
-        self.bot_messages = [self.greetings, self.ask_for_symptoms, self.calm]
+        self.bot_messages = [self.greetings, self.ask_for_symptoms, self.calm, self.start_chat]
         self.bot_message_index = 0
 
         self.bot_chat(self.bot_messages[self.bot_message_index])
@@ -123,6 +129,7 @@ class MainPage(tk.Frame):
         self.create_message_bubble(message, message_type, self.chat_history)
         self.current_y += 0.06
 
+
     def send_message(self):
         """
         function to send message
@@ -138,9 +145,12 @@ class MainPage(tk.Frame):
         # save user's answer
         self.save_user_answers(message)
 
-        self.bot_message_index += 1
-        if self.bot_message_index < len(self.bot_messages):
+        if self.bot_message_index < len(self.bot_messages) - 1:
+            self.bot_message_index += 1
             self.bot_chat(self.bot_messages[self.bot_message_index])
+        else:
+            resp = chatbot.respond(ctx, message)
+            self.bot_chat(resp)
 
     def bot_chat(self, message):
         """
@@ -154,7 +164,7 @@ class MainPage(tk.Frame):
 
     def logout(self):
         """
-        function to logout
+        function to log out
         Args:
             None
         Returns:

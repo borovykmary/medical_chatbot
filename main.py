@@ -37,6 +37,7 @@ class Application(tk.Tk):
         """
         self.login_page.tkraise()
 
+
     def show_register_page(self, event=None):
         """
         function to show register page
@@ -48,6 +49,7 @@ class Application(tk.Tk):
         function to show main page
         """
         self.main_page.tkraise()
+
 
 
 if __name__ == "__main__":
