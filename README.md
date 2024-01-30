@@ -2,6 +2,14 @@
 
 This project is a medical chatbot application developed in Python. It uses the Tkinter library for the graphical user interface and MySQL for database management. The application allows users to register, login, and interact with the chatbot.
 
+![ ](res/ui_demonstration/ui1.png)
+![ ](ui_demonstration/ui2.png)
+![ ](ui_demonstration/ui3.png)
+![ ](ui_demonstration/ui4.png)
+![ ](ui_demonstration/ui5.png)
+![ ](ui_demonstration/ui6.png)
+![ ](ui_demonstration/ui7.png)
+
 ## Project Structure
 
 The project is structured into several Python files, each serving a specific purpose:
@@ -14,6 +22,8 @@ The project is structured into several Python files, each serving a specific pur
 
 - `pages/chat_page.py`: This file contains the `MainPage` class, which represents the main page of the application where the user interacts with the chatbot.
 
+- `bot.py`: This file contains the `Chatbot` class, which is responsible for the chatbot functionality. It uses the `ttc` library to process user input and generate responses.
+
 - `convert_to_pdf.py`: This file contains a function to convert patient's data to a PDF file.
 
 ## Requirements
@@ -22,6 +32,7 @@ The project is structured into several Python files, each serving a specific pur
 - Tkinter
 - MySQL
 - PyLaTeX
+- ttc
 
 ## Setup
 
@@ -30,4 +41,11 @@ To run this project, you need to have Python version>3.9. After cloning the proj
 ## Usage
 
 To start the application, navigate to the project directory in your terminal and run `python main.py`.
+
+## Authors
+
+- borovykmary
+- mmichalss
+
+
 
