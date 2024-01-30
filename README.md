@@ -2,12 +2,11 @@
 
 This project is a medical chatbot application developed in Python. It uses the Tkinter library for the graphical user interface and MySQL for database management. The application allows users to register, login, and interact with the chatbot.
 
-![ ](ui_demonstration/ui6.png)
-![ ](ui_demonstration/ui5.png)
-![ ](ui_demonstration/ui4.png)
-![ ](ui_demonstration/ui3.png)
-![ ](ui_demonstration/ui2.png)
-![ ](ui_demonstration/ui1.png)
+![ ](res/ui_demonstartion/ui6.png)
+![ ](res/ui_demonstartion/ui5.png)
+![ ](res/ui_demonstartion/ui4.png)
+![ ](res/ui_demonstartion/ui3.png)
+![ ](res/ui_demonstartion/ui2.png)
 
 ## Project Structure
 
